@@ -25,7 +25,7 @@ void ConfigureDialog::applyConfiguration() {
     ui->audioTab->applyConfiguration(false);
     ui->debugTab->applyConfiguration(false);
 
-     Settings::Apply();
+    Settings::Apply();
     // system settings doesn't actually put settings in the ini file
     ui->systemTab->applyConfiguration();
 }
