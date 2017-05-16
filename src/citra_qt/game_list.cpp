@@ -219,7 +219,7 @@ GameList::GameList(GMainWindow* parent) : QWidget{parent} {
     item_model->setHeaderData(COLUMN_NAME, Qt::Horizontal, "Name");
     item_model->setHeaderData(COLUMN_FILE_TYPE, Qt::Horizontal, "File type");
     item_model->setHeaderData(COLUMN_SIZE, Qt::Horizontal, "Size");
-	
+
     recursive = UISettings::values.gamedir_deepscan;
     game_directory = UISettings::values.gamedir;
     PopulateAsync(game_directory, recursive);
