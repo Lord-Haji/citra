@@ -70,7 +70,7 @@ public:
 
     void SaveInterfaceLayout();
     void LoadInterfaceLayout();
-	void OnSettingsUpdated();
+    void OnSettingsUpdated();
 
     static const QStringList supported_file_extensions;
 

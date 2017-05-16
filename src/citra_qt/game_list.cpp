@@ -277,7 +277,7 @@ void GameList::ValidateEntry(const QModelIndex& item) {
 }
 
 void GameList::DonePopulating(QStringList watch_list) {
-	auto header = tree_view->header();
+    auto header = tree_view->header();
     item_model->sort(header->sortIndicatorSection(), header->sortIndicatorOrder());
     // Clear out the old directories to watch for changes and add the new ones
     auto watch_dirs = watcher->directories();
