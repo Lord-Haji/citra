@@ -580,7 +580,7 @@ void GMainWindow::OnConfigure() {
     auto result = configureDialog.exec();
     if (result == QDialog::Accepted) {
         configureDialog.applyConfiguration();
-		game_list->OnSettingsUpdated();
+        game_list->OnSettingsUpdated();
         config->Save();
     }
 }
