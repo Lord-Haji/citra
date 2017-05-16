@@ -385,6 +385,7 @@ void GameList::OnSettingsUpdated() {
         recursive = UISettings::values.gamedir_deepscan;
         RefreshGameDirectory();
     }
+}
 
 void GameListWorker::AddFstEntriesToGameList(const std::string& dir_path, unsigned int recursion) {
     const auto callback = [this, recursion](unsigned* num_entries_out, const std::string& directory,
