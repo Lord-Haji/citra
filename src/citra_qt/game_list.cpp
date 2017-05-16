@@ -219,6 +219,10 @@ GameList::GameList(GMainWindow* parent) : QWidget{parent} {
     item_model->setHeaderData(COLUMN_NAME, Qt::Horizontal, "Name");
     item_model->setHeaderData(COLUMN_FILE_TYPE, Qt::Horizontal, "File type");
     item_model->setHeaderData(COLUMN_SIZE, Qt::Horizontal, "Size");
+	
+    recursive = UISettings::values.gamedir_deepscan;
+    game_directory = UISettings::values.gamedir;
+    PopulateAsync(game_directory, recursive);
 
     connect(tree_view, &QTreeView::activated, this, &GameList::ValidateEntry);
     connect(tree_view, &QTreeView::customContextMenuRequested, this, &GameList::PopupContextMenu);
@@ -273,6 +277,8 @@ void GameList::ValidateEntry(const QModelIndex& item) {
 }
 
 void GameList::DonePopulating(QStringList watch_list) {
+	auto header = tree_view->header();
+    item_model->sort(header->sortIndicatorSection(), header->sortIndicatorOrder());
     // Clear out the old directories to watch for changes and add the new ones
     auto watch_dirs = watcher->directories();
     if (!watch_dirs.isEmpty()) {
@@ -365,12 +371,20 @@ static bool HasSupportedFileExtension(const std::string& file_name) {
 }
 
 void GameList::RefreshGameDirectory() {
-    if (!UISettings::values.gamedir.isEmpty() && current_worker != nullptr) {
+    if (!game_directory.isEmpty() && current_worker != nullptr) {
         LOG_INFO(Frontend, "Change detected in the games directory. Reloading game list.");
         search_field->clear();
-        PopulateAsync(UISettings::values.gamedir, UISettings::values.gamedir_deepscan);
+        PopulateAsync(game_directory, recursive);
     }
 }
+
+void GameList::OnSettingsUpdated() {
+    if (UISettings::values.gamedir_deepscan != recursive ||
+        UISettings::values.gamedir != game_directory) {
+        game_directory = UISettings::values.gamedir;
+        recursive = UISettings::values.gamedir_deepscan;
+        RefreshGameDirectory();
+    }
 
 void GameListWorker::AddFstEntriesToGameList(const std::string& dir_path, unsigned int recursion) {
     const auto callback = [this, recursion](unsigned* num_entries_out, const std::string& directory,
