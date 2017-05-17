@@ -70,7 +70,6 @@ GMainWindow::GMainWindow() : config(new Config()), emu_thread(nullptr) {
                        .arg(Common::g_build_name, Common::g_scm_branch, Common::g_scm_desc));
     show();
 
-
     QStringList args = QApplication::arguments();
     if (args.length() >= 2) {
         BootGame(args[1]);
